@@ -1,0 +1,34 @@
+version: "3"
+services:
+
+  app1:
+    image: youssefhatem/java-app1
+    ports:
+      - "7777:8080"
+    container_name: java-app1
+    networks:
+      - frontend
+  
+  app2:
+    build: ./app2
+    ports:
+       - "9999:8080"
+    container_name: java-app2
+    networks:
+      - frontend
+
+  nginx:
+    image: youssefhatem/reverse-proxy
+    ports:
+      - "80:80"
+    links:
+#      - my-wp
+      - app1
+      - app2
+    container_name: java-reverse-proxy
+    networks:
+      - frontend
+
+networks:
+  frontend:
+          #driver: custom-driver-1
